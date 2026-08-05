@@ -1,10 +1,6 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.5.1
-
 fastapi
 uvicorn[standard]
 python-dotenv
-sentence-transformers
 chromadb
 google-generativeai
 requests
