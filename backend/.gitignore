@@ -1,0 +1,21 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Database files
+*.db
+
+# Chroma database
+chroma_db/
+
+# OS files
+.DS_Store
+Thumbs.db

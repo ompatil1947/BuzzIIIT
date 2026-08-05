@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ── Awadhi Design System Tokens ─────────────────────────────────────────── */
+@theme {
+  /* Palette */
+  --color-marigold:     #F5B92C;   /* primary accent — buttons, active states  */
+  --color-marigold-light: #FEF3C7;
+  --color-marigold-dark:  #D4991A;
+  --color-ittar-cream:  #FFF8E9;   /* page background                          */
+  --color-kebab-brown:  #2B1710;   /* headlines, nav, dark surfaces            */
+  --color-chili-red:    #E1483C;   /* CTAs, spicy/trending tags, ratings       */
+  --color-chili-light:  #FDECEA;
+  --color-pudina-green: #4C7A52;   /* veg tags, QnA accents, positive reviews  */
+  --color-pudina-light: #EAF4EB;
+  --color-card-border:  #EDE0CC;   /* warm card border                         */
+  --color-surface:      #FFFFFF;
+
+  /* Typography */
+  --font-display: 'Baloo 2', 'Segoe UI', cursive;
+  --font-body:    'Poppins', 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* Legacy compat (used in existing components) */
+  --color-primary:    #F5B92C;
+  --color-secondary:  #4C7A52;
+  --color-bgTheme:    #FFF8E9;
+  --color-textTheme:  #2B1710;
+  --color-cardsTheme: #EDE0CC;
+}
+
+/* ── Base Styles ─────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ittar-cream);
+    color: var(--color-kebab-brown);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-kebab-brown);
+    line-height: 1.2;
+  }
+
+  /* JetBrains Mono for all numeric data */
+  .mono, .price, .rating-num, .distance-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ── Leaflet map ─────────────────────────────────────────────────────────── */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  font-family: var(--font-body);
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar         { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track   { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb   { background: var(--color-card-border); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-marigold); }
+
+/* ── Pill chip style ─────────────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border: 1.5px solid transparent;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.chip-inactive {
+  background: white;
+  color: var(--color-kebab-brown);
+  border-color: var(--color-card-border);
+}
+.chip-inactive:hover {
+  border-color: var(--color-marigold);
+  background: var(--color-marigold-light);
+  color: var(--color-kebab-brown);
+}
+
+.chip-active {
+  background: var(--color-marigold);
+  color: var(--color-kebab-brown);
+  border-color: var(--color-marigold-dark);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(245,185,44,0.35);
+}
+
+/* ── Dastarkhwan strip ───────────────────────────────────────────────────── */
+.dastarkhwan-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  scrollbar-width: none;
+}
+.dastarkhwan-strip::-webkit-scrollbar { display: none; }
+
+/* ── Restaurant card ─────────────────────────────────────────────────────── */
+.restaurant-card {
+  background: white;
+  border-radius: 20px;
+  border: 1.5px solid var(--color-card-border);
+  overflow: hidden;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.restaurant-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-marigold), var(--color-chili-red));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.restaurant-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(43,23,16,0.12), 0 4px 12px rgba(245,185,44,0.15);
+  border-color: var(--color-marigold);
+}
+.restaurant-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Khidmatgar chat bubble ──────────────────────────────────────────────── */
+.bot-bubble {
+  background: white;
+  border: 1.5px solid var(--color-card-border);
+  border-left: 3px solid var(--color-marigold);
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+  color: var(--color-kebab-brown);
+  font-family: var(--font-body);
+}
+
+.user-bubble {
+  background: var(--color-kebab-brown);
+  color: white;
+  border-radius: 18px;
+  border-top-right-radius: 4px;
+}
+
+/* ── Hero headline ───────────────────────────────────────────────────────── */
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--color-kebab-brown);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* ── Star rating ─────────────────────────────────────────────────────────── */
+.star-filled   { color: var(--color-chili-red); fill: var(--color-chili-red); }
+.star-empty    { color: var(--color-card-border); fill: var(--color-card-border); }
+.star-hover    { color: var(--color-marigold); fill: var(--color-marigold); }
+
+/* ── Nav pill bar ────────────────────────────────────────────────────────── */
+.nav-pill {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.18s ease;
+  cursor: pointer;
+  color: var(--color-kebab-brown);
+}
+.nav-pill:hover {
+  background: var(--color-marigold-light);
+}
+.nav-pill.active {
+  background: var(--color-marigold);
+  color: var(--color-kebab-brown);
+  font-weight: 700;
+}
+
+/* ── Veg / Non-Veg tags ──────────────────────────────────────────────────── */
+.tag-veg {
+  background: var(--color-pudina-light);
+  color: var(--color-pudina-green);
+  border: 1px solid var(--color-pudina-green);
+  font-weight: 600;
+}
+.tag-nonveg {
+  background: var(--color-chili-light);
+  color: var(--color-chili-red);
+  border: 1px solid var(--color-chili-red);
+  font-weight: 600;
+}
+.tag-both {
+  background: var(--color-marigold-light);
+  color: #92400e;
+  border: 1px solid var(--color-marigold);
+  font-weight: 600;
+}
+
+/* ── Source citation ─────────────────────────────────────────────────────── */
+.source-citation {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--color-pudina-green);
+  font-style: italic;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { opacity: 0.4; transform: scale(0.95); }
+  50%  { opacity: 1;   transform: scale(1); }
+  100% { opacity: 0.4; transform: scale(0.95); }
+}
+.khidmatgar-dot {
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+.khidmatgar-dot:nth-child(2) { animation-delay: 0.2s; }
+.khidmatgar-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-slide-up {
+  animation: fadeSlideUp 0.3s ease forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,185,44,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(245,185,44,0); }
+}
+.pulse-glow {
+  animation: pulseGlow 2s ease infinite;
+}
