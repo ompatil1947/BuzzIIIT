@@ -18,7 +18,9 @@ Endpoints:
     GET  /api/restaurants/{id}/questions         — get Q&A thread
     POST /api/questions/{qid}/answers            — answer a question
 """
-
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -322,3 +324,22 @@ async def post_answer(
         "text":        a.text,
         "created_at":  fmt_dt(a.created_at),
     }
+# ═══════════════════════════════════════════════════════════════════════════════
+#  FRONTEND STATIC SERVING (production build)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend_dist")
+
+if os.path.isdir(FRONTEND_DIR):
+    app.mount(
+        "/assets",
+        StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")),
+        name="assets",
+    )
+
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        candidate = os.path.join(FRONTEND_DIR, full_path)
+        if full_path and os.path.isfile(candidate):
+            return FileResponse(candidate)
+        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
