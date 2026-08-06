@@ -1,5 +1,7 @@
 # 🍢 BuzzIIIT Guide
 
+## Live at : https://buzziiit.onrender.com/
+
 > *"Budget bhi chahiye aur taste bhi."*
 > An AI-powered, RAG-based restaurant recommendation system built exclusively for students of **IIIT Lucknow** — anchored in Awadhi food culture, not generic food-app templates.
 
